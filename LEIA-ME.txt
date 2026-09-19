@@ -1,0 +1,18 @@
+FAQ GEDIV — BASE DO PROTÓTIPO
+
+Arquivos:
+- index.html = estrutura da página
+- styles.css = aparência e versão para celular
+- script.js = busca, categorias e perguntas recolhíveis
+- data.js = dados temporários da planilha de teste
+
+IMPORTANTE:
+Os dados atuais são apenas os da planilha de teste enviada. Eles NÃO são o conteúdo final.
+
+PRÓXIMA ETAPA:
+1. Substituir os dados de teste pelos dados reais.
+2. Publicar estes arquivos no GitHub.
+3. Ativar o GitHub Pages.
+4. Depois, se desejado, conectar o site diretamente ao Google Sheets para que a planilha seja a base de manutenção.
+
+A estrutura foi feita para que a aparência do site e o conteúdo possam ser alterados separadamente.

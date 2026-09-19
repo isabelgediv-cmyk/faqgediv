@@ -1,0 +1,204 @@
+* { box-sizing: border-box; }
+
+:root {
+  --blue: #17577a;
+  --orange: #f7a93b;
+  --teal: #00979e;
+  --red: #de4c39;
+  --cream: #ffe7c4;
+  --text: #18313d;
+  --muted: #66757d;
+  --bg: #f6f8f9;
+  --white: #ffffff;
+  --border: #dfe7ea;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container {
+  width: min(100% - 32px, 980px);
+  margin-inline: auto;
+}
+
+.hero {
+  background: var(--blue);
+  color: white;
+  padding: 28px 0 34px;
+}
+
+.brand {
+  display: inline-flex;
+  padding: 7px 12px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.13);
+  font-weight: 800;
+  letter-spacing: .08em;
+  font-size: .82rem;
+}
+
+.hero h1 {
+  margin: 18px 0 7px;
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  line-height: 1.08;
+}
+
+.hero p {
+  margin: 0 0 22px;
+  opacity: .9;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: var(--text);
+  border-radius: 14px;
+  padding: 0 15px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+.search span { font-size: 1.45rem; }
+
+.search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 15px 0;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.main { padding: 24px 0 48px; }
+
+.categories {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  scrollbar-width: thin;
+}
+
+.category {
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--blue);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.category.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+.results-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 27px 0 13px;
+}
+
+.results-head h2 { margin: 0 0 4px; font-size: 1.35rem; }
+.results-head p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--blue);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.faq-list { display: grid; gap: 10px; }
+
+.faq-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 18px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  text-align: left;
+  color: var(--text);
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.faq-question:hover { background: #fbfcfc; }
+
+.chevron {
+  flex: 0 0 auto;
+  font-size: 1.2rem;
+  color: var(--blue);
+  transition: transform .2s ease;
+}
+
+.faq-item.open .chevron { transform: rotate(180deg); }
+
+.faq-answer {
+  display: none;
+  padding: 0 18px 18px;
+  color: #40535c;
+  line-height: 1.65;
+}
+
+.faq-item.open .faq-answer { display: block; }
+
+.category-label {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--teal);
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.empty {
+  background: white;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.empty h3 { margin: 0 0 6px; }
+.empty p { margin: 0; color: var(--muted); }
+
+footer {
+  border-top: 1px solid var(--border);
+  background: white;
+  color: var(--muted);
+  padding: 22px 0;
+  font-size: .86rem;
+}
+
+@media (min-width: 760px) {
+  .hero { padding-top: 38px; padding-bottom: 44px; }
+  .main { padding-top: 32px; }
+  .faq-question { padding: 20px 22px; }
+  .faq-answer { padding: 0 22px 22px; max-width: 850px; }
+}
