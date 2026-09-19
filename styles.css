@@ -35,18 +35,20 @@ body {
 
 .brand {
   display: inline-flex;
+  max-width: 760px;
   padding: 7px 12px;
   border-radius: 9px;
   background: rgba(255,255,255,.13);
   font-weight: 800;
-  letter-spacing: .08em;
-  font-size: .82rem;
+  letter-spacing: .03em;
+  font-size: .72rem;
+  line-height: 1.35;
 }
 
 .hero h1 {
-  margin: 18px 0 7px;
-  font-size: clamp(1.8rem, 6vw, 2.8rem);
-  line-height: 1.08;
+  margin: 16px 0 7px;
+  font-size: clamp(1.65rem, 5.5vw, 2.5rem);
+  line-height: 1.1;
 }
 
 .hero p {
