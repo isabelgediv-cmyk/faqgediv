@@ -77,7 +77,28 @@ body {
   font-size: 1rem;
   background: transparent;
 }
+.notice {
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: var(--cream);
+  border-left: 4px solid var(--orange);
+  border-radius: 10px;
+  color: var(--text);
+}
 
+.notice-title {
+  margin-bottom: 4px;
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--blue);
+}
+
+.notice-text {
+  font-size: .88rem;
+  line-height: 1.5;
+}
 .main { padding: 24px 0 48px; }
 
 .categories {
