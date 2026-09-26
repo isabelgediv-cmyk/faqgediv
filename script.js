@@ -72,8 +72,26 @@ function escapeHtml(text) {
     .replace(/'/g, "&#039;");
 }
 
+
 function formatAnswer(text) {
-  return escapeHtml(text).replace(/\r?\n/g, "<br>");
+  const escaped = escapeHtml(text);
+
+  const linked = escaped.replace(
+    /https?:\/\/[^\s<]+/g,
+    (url) => {
+      let cleanUrl = url;
+      let punctuation = "";
+
+      while (/[.,;:!?)]$/.test(cleanUrl)) {
+        punctuation = cleanUrl.slice(-1) + punctuation;
+        cleanUrl = cleanUrl.slice(0, -1);
+      }
+
+      return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer">${cleanUrl}</a>${punctuation}`;
+    }
+  );
+
+  return linked.replace(/\r?\n/g, "<br>");
 }
 
 function loadCSV(text) {
