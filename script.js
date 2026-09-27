@@ -73,10 +73,18 @@ function escapeHtml(text) {
 }
 
 
-function formatAnswer(text) {
-  const escaped = escapeHtml(text);
 
-  const linked = escaped.replace(
+function formatAnswer(text) {
+  let formatted = escapeHtml(text);
+
+  // Converte **texto** em negrito
+  formatted = formatted.replace(
+    /\*\*(.+?)\*\*/g,
+    "<strong>$1</strong>"
+  );
+
+  // Transforma URLs completas em links clicáveis
+  formatted = formatted.replace(
     /https?:\/\/[^\s<]+/g,
     (url) => {
       let cleanUrl = url;
@@ -91,7 +99,8 @@ function formatAnswer(text) {
     }
   );
 
-  return linked.replace(/\r?\n/g, "<br>");
+  // Preserva as quebras de linha
+  return formatted.replace(/\r?\n/g, "<br>");
 }
 
 function loadCSV(text) {
