@@ -1,10 +1,11 @@
+
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGl48MRFhtfZLirpHIvW9ySawBxitDg0w5m6wHLqo4KnJTXUHd-M-OA1mr9gpl0whhonMwvw0cZojj/pub?gid=1686832610&single=true&output=csv";
 
 let DATA = [];
-let activeCategory = "Todas";
+let activeCategory = "all";
 
 const searchInput = document.getElementById("searchInput");
-const categoriesEl = document.getElementById("categories");
+const categorySelect = document.getElementById("categorySelect");
 const faqList = document.getElementById("faqList");
 const resultCount = document.getElementById("resultCount");
 const sectionTitle = document.getElementById("sectionTitle");
@@ -47,6 +48,7 @@ function parseCSV(text) {
 
   if (cell !== "" || row.length > 0) {
     row.push(cell);
+
     if (row.some(value => value.trim() !== "")) {
       rows.push(row);
     }
@@ -72,21 +74,19 @@ function escapeHtml(text) {
     .replace(/'/g, "&#039;");
 }
 
-
-
 function formatAnswer(text) {
   let formatted = escapeHtml(text);
 
-  // Converte **texto** em negrito
+  // Converte **texto** em negrito.
   formatted = formatted.replace(
     /\*\*(.+?)\*\*/g,
     "<strong>$1</strong>"
   );
 
-  // Transforma URLs completas em links clicáveis
+  // Transforma URLs completas em links clicáveis.
   formatted = formatted.replace(
     /https?:\/\/[^\s<]+/g,
-    (url) => {
+    url => {
       let cleanUrl = url;
       let punctuation = "";
 
@@ -99,7 +99,7 @@ function formatAnswer(text) {
     }
   );
 
-  // Preserva as quebras de linha
+  // Preserva as quebras de linha.
   return formatted.replace(/\r?\n/g, "<br>");
 }
 
@@ -116,8 +116,14 @@ function loadCSV(text) {
   const perguntaIndex = headers.findIndex(h => h === "pergunta");
   const respostaIndex = headers.findIndex(h => h === "resposta");
 
-  if (categoriaIndex === -1 || perguntaIndex === -1 || respostaIndex === -1) {
-    throw new Error("As colunas Categoria, Pergunta e Resposta não foram encontradas.");
+  if (
+    categoriaIndex === -1 ||
+    perguntaIndex === -1 ||
+    respostaIndex === -1
+  ) {
+    throw new Error(
+      "As colunas Categoria, Pergunta e Resposta não foram encontradas."
+    );
   }
 
   return rows.slice(1)
@@ -129,38 +135,21 @@ function loadCSV(text) {
     .filter(item => item.pergunta && item.resposta);
 }
 
-function getCategories() {
-  return [
-    "Todas",
+function renderCategories() {
+  const categories = [
     ...new Set(DATA.map(item => item.categoria).filter(Boolean))
   ];
-}
 
-function renderCategories() {
-  const categories = getCategories();
+  categorySelect.innerHTML = `
+    <option value="all">Todas as categorias</option>
+    ${categories.map(category => `
+      <option value="${escapeHtml(category)}">
+        ${escapeHtml(category)}
+      </option>
+    `).join("")}
+  `;
 
-  categoriesEl.innerHTML = categories.map(category => `
-    <button
-      class="category ${category === activeCategory ? "active" : ""}"
-      data-category="${escapeHtml(category)}"
-    >
-      ${escapeHtml(category)}
-    </button>
-  `).join("");
-
-  document.querySelectorAll(".category").forEach(button => {
-    button.addEventListener("click", () => {
-      activeCategory = button.dataset.category;
-      searchInput.value = "";
-      renderCategories();
-      render();
-
-      document.querySelector(".results-head")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  });
+  categorySelect.value = activeCategory;
 }
 
 function getFiltered() {
@@ -168,7 +157,7 @@ function getFiltered() {
 
   return DATA.filter(item => {
     const matchesCategory =
-      activeCategory === "Todas" ||
+      activeCategory === "all" ||
       item.categoria === activeCategory;
 
     const searchableText = normalize(
@@ -185,13 +174,18 @@ function getFiltered() {
 function render() {
   const filtered = getFiltered();
 
-  resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? "resultado" : "resultados"}`;
+  resultCount.textContent =
+    `${filtered.length} ${
+      filtered.length === 1 ? "resultado" : "resultados"
+    }`;
 
-  if (activeCategory === "Todas") {
-    sectionTitle.textContent = "Perguntas frequentes";
-  } else {
-    sectionTitle.textContent = activeCategory;
-  }
+  sectionTitle.textContent =
+    activeCategory === "all"
+      ? "Perguntas frequentes"
+      : activeCategory;
+
+  clearFilter.hidden =
+    activeCategory === "all" && !searchInput.value.trim();
 
   if (filtered.length === 0) {
     faqList.innerHTML = "";
@@ -201,7 +195,7 @@ function render() {
 
   emptyState.style.display = "none";
 
-  faqList.innerHTML = filtered.map((item, index) => `
+  faqList.innerHTML = filtered.map(item => `
     <article class="faq-item">
       <button class="faq-question" aria-expanded="false">
         <span>${escapeHtml(item.pergunta)}</span>
@@ -223,7 +217,9 @@ function render() {
 
       document.querySelectorAll(".faq-item.open").forEach(openItem => {
         openItem.classList.remove("open");
-        openItem.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+        openItem
+          .querySelector(".faq-question")
+          .setAttribute("aria-expanded", "false");
       });
 
       if (!isOpen) {
@@ -232,6 +228,13 @@ function render() {
       }
     });
   });
+}
+
+function resetFilters() {
+  activeCategory = "all";
+  categorySelect.value = "all";
+  searchInput.value = "";
+  render();
 }
 
 async function loadData() {
@@ -244,33 +247,30 @@ async function loadData() {
 
     const csv = await response.text();
     DATA = loadCSV(csv);
-
-    renderCategories();
-    render();
-
   } catch (error) {
     console.error(error);
 
-    // Mantém o site funcionando com os dados antigos
-    // caso a planilha esteja temporariamente indisponível.
+    // Usa os dados locais se a planilha estiver indisponível.
     if (Array.isArray(window.FAQ_DATA)) {
       DATA = window.FAQ_DATA;
-      renderCategories();
-      render();
     } else {
       faqList.innerHTML = "";
       emptyState.style.display = "block";
+      return;
     }
   }
+
+  renderCategories();
+  render();
 }
 
 searchInput.addEventListener("input", render);
 
-clearFilter.addEventListener("click", () => {
-  activeCategory = "Todas";
-  searchInput.value = "";
-  renderCategories();
+categorySelect.addEventListener("change", () => {
+  activeCategory = categorySelect.value;
   render();
 });
+
+clearFilter.addEventListener("click", resetFilters);
 
 loadData();
