@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -10,39 +11,60 @@
 <body>
   <header class="hero">
     <div class="container">
-      <div class="brand">Gerência Executiva de Concessão de Direitos e Vantagens</div>
+      <div class="brand">
+        Gerência Executiva de Concessão de Direitos e Vantagens
+      </div>
+
       <h1>Central de Orientações</h1>
       <p>Encontre respostas para as dúvidas mais frequentes.</p>
 
       <label class="search">
         <span aria-hidden="true">⌕</span>
-        <input id="searchInput" type="search" placeholder="Digite uma dúvida ou palavra-chave..." autocomplete="off">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Digite uma dúvida ou palavra-chave..."
+          autocomplete="off"
+        >
       </label>
     </div>
   </header>
 
-<div class="container">
-  <div class="notice">
-    <div class="notice-title">Atenção</div>
-    <div class="notice-text">
-      Este material possui caráter exclusivamente consultivo e informativo,
-      não constituindo documento hábil para fins de comprovação.
+  <div class="container">
+    <div class="notice">
+      <div class="notice-title">Atenção</div>
+      <div class="notice-text">
+        Este material possui caráter exclusivamente consultivo e informativo,
+        não constituindo documento hábil para fins de comprovação.
+      </div>
     </div>
   </div>
-</div>
 
-<main class="container main">
-  <section id="categories" class="categories" aria-label="Categorias"></section>
-   
+  <main class="container main">
+    <section class="category-filter" aria-label="Filtro por categoria">
+      <label for="categorySelect">Selecione uma categoria</label>
+
+      <select id="categorySelect">
+        <option value="all">Todas as categorias</option>
+      </select>
+    </section>
+
     <section class="results-head">
       <div>
         <h2 id="sectionTitle">Perguntas frequentes</h2>
         <p id="resultCount"></p>
       </div>
-      <button id="clearFilter" class="text-button" hidden>Limpar filtro</button>
+
+      <button id="clearFilter" class="text-button" hidden>
+        Limpar filtro
+      </button>
     </section>
 
-    <section id="faqList" class="faq-list" aria-live="polite"></section>
+    <section
+      id="faqList"
+      class="faq-list"
+      aria-live="polite"
+    ></section>
 
     <div id="emptyState" class="empty" hidden>
       <h3>Nenhuma pergunta encontrada</h3>
