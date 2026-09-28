@@ -90,6 +90,10 @@ body {
   background: transparent;
 }
 
+.search:focus-within {
+  box-shadow: 0 0 0 3px rgba(247, 169, 59, .55);
+}
+
 /* Aviso */
 
 .notice {
@@ -176,6 +180,7 @@ body {
 .results-head h2 {
   margin: 0 0 4px;
   font-size: 1.35rem;
+  line-height: 1.3;
 }
 
 .results-head p {
@@ -222,6 +227,30 @@ body {
   border-color: #c4d8df;
 }
 
+/* Identificação da categoria */
+
+.category-label {
+  display: inline-block;
+  max-width: calc(100% - 32px);
+  margin: 14px 16px 0;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #edf5f7;
+  color: var(--blue);
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  overflow-wrap: anywhere;
+}
+
+.category-label + .faq-question {
+  padding-top: 12px;
+}
+
+/* Perguntas expansíveis */
+
 .faq-question {
   width: 100%;
   border: 0;
@@ -235,6 +264,7 @@ body {
   color: var(--text);
   font: inherit;
   font-weight: 750;
+  line-height: 1.45;
   cursor: pointer;
 }
 
@@ -296,23 +326,28 @@ body {
   color: var(--text);
 }
 
-/* Estado sem resultados */
+/* Estado inicial e ausência de resultados */
 
 .empty {
   background: white;
   border: 1px dashed var(--border);
   border-radius: 14px;
-  padding: 30px 20px;
+  padding: 30px 24px;
   text-align: center;
 }
 
 .empty h3 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-size: 1.1rem;
 }
 
 .empty p {
-  margin: 0;
+  max-width: 520px;
+  margin: 0 auto;
   color: var(--muted);
+  font-size: .94rem;
+  line-height: 1.6;
 }
 
 /* Rodapé */
@@ -341,6 +376,14 @@ footer {
     padding: 20px 22px;
   }
 
+  .category-label {
+    margin-left: 22px;
+  }
+
+  .category-label + .faq-question {
+    padding-top: 12px;
+  }
+
   .faq-answer {
     padding: 0 22px 22px;
     max-width: 850px;
@@ -357,6 +400,10 @@ footer {
 
   .brand {
     font-size: .68rem;
+  }
+
+  .hero p {
+    line-height: 1.5;
   }
 
   .notice {
@@ -382,9 +429,23 @@ footer {
     font-size: .94rem;
   }
 
+  .category-label {
+    max-width: calc(100% - 28px);
+    margin: 12px 14px 0;
+    font-size: .68rem;
+  }
+
+  .category-label + .faq-question {
+    padding-top: 10px;
+  }
+
   .faq-answer {
     padding: 0 14px 16px;
     font-size: .93rem;
+  }
+
+  .empty {
+    padding: 26px 18px;
   }
 
   .text-button {
