@@ -118,52 +118,38 @@ body {
   padding: 24px 0 48px;
 }
 
-/* Categorias: rolagem horizontal */
+/* Categorias: organizadas em várias linhas */
 
 .categories {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 9px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 4px 2px 12px;
-  scrollbar-width: thin;
-  scrollbar-color: #b8cbd3 transparent;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
-
-.categories::-webkit-scrollbar {
-  height: 6px;
-}
-
-.categories::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.categories::-webkit-scrollbar-thumb {
-  background: #b8cbd3;
-  border-radius: 999px;
-}
-
-.categories::-webkit-scrollbar-thumb:hover {
-  background: var(--blue);
+  gap: 10px;
+  padding: 4px 0 14px;
 }
 
 /* Botões de categoria */
 
 .category {
-  flex: 0 0 auto;
-  white-space: nowrap;
+  flex: 0 1 auto;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.35;
+
   border: 1px solid var(--border);
   background: var(--white);
   color: var(--blue);
   border-radius: 999px;
-  padding: 10px 14px;
+  padding: 10px 16px;
+
   font-weight: 700;
   font-size: .9rem;
   cursor: pointer;
-  transition: background .2s ease, color .2s ease, border-color .2s ease;
+  transition:
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease;
 }
 
 .category:hover {
