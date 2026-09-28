@@ -1,4 +1,7 @@
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
 
 :root {
   --blue: #17577a;
@@ -79,6 +82,7 @@ body {
 
 .search input {
   width: 100%;
+  min-width: 0;
   border: 0;
   outline: 0;
   padding: 15px 0;
@@ -117,54 +121,46 @@ body {
   padding: 24px 0 48px;
 }
 
-/* Categorias: organizadas em várias linhas */
+/* Menu de categorias */
 
-.categories {
+.category-filter {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 0 14px;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 26px;
 }
 
-/* Botões de categoria */
-
-.category {
-  flex: 0 1 auto;
-  max-width: 100%;
-  white-space: normal;
-  text-align: center;
-  line-height: 1.35;
-
-  border: 1px solid var(--border);
-  background: var(--white);
+.category-filter label {
   color: var(--blue);
-  border-radius: 999px;
-  padding: 10px 16px;
-
-  font-weight: 700;
   font-size: .9rem;
+  font-weight: 750;
+}
+
+.category-filter select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 42px 12px 15px;
+  border: 1px solid #cbd9df;
+  border-radius: 12px;
+  background-color: var(--white);
+  color: var(--text);
+  font: inherit;
+  font-size: .95rem;
   cursor: pointer;
-  transition:
-    background .2s ease,
-    color .2s ease,
-    border-color .2s ease;
+  box-shadow: 0 2px 6px rgba(24, 49, 61, .04);
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
 
-.category:hover {
+.category-filter select:hover {
   border-color: var(--teal);
-  background: #eef8f8;
 }
 
-.category.active {
-  background: var(--blue);
-  color: white;
-  border-color: var(--blue);
-}
-
-.category:focus-visible {
-  outline: 3px solid var(--orange);
+.category-filter select:focus-visible {
+  outline: 3px solid rgba(247, 169, 59, .45);
   outline-offset: 2px;
+  border-color: var(--blue);
 }
 
 /* Cabeçalho dos resultados */
@@ -174,7 +170,7 @@ body {
   align-items: end;
   justify-content: space-between;
   gap: 16px;
-  margin: 27px 0 13px;
+  margin: 0 0 13px;
 }
 
 .results-head h2 {
@@ -196,6 +192,17 @@ body {
   cursor: pointer;
 }
 
+.text-button:hover {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+.text-button:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* Lista de perguntas */
 
 .faq-list {
@@ -208,6 +215,11 @@ body {
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
+  transition: border-color .2s ease;
+}
+
+.faq-item.open {
+  border-color: #c4d8df;
 }
 
 .faq-question {
@@ -230,15 +242,29 @@ body {
   background: #fbfcfc;
 }
 
-.chevron {
-  flex: 0 0 auto;
-  font-size: 1.2rem;
-  color: var(--blue);
-  transition: transform .2s ease;
+.faq-question:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: -3px;
 }
 
-.faq-item.open .chevron {
-  transform: rotate(180deg);
+.faq-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #edf5f7;
+  color: var(--blue);
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.faq-item.open .faq-icon {
+  background: var(--blue);
+  color: white;
+  transform: rotate(45deg);
 }
 
 /* Respostas */
@@ -248,20 +274,26 @@ body {
   padding: 0 18px 18px;
   color: #40535c;
   line-height: 1.65;
+  overflow-wrap: anywhere;
 }
 
 .faq-item.open .faq-answer {
   display: block;
 }
 
-.category-label {
-  display: inline-block;
-  margin-bottom: 8px;
+.faq-answer-content a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.faq-answer-content a:hover {
   color: var(--teal);
-  font-size: .78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .04em;
+}
+
+.faq-answer-content strong {
+  color: var(--text);
 }
 
 /* Estado sem resultados */
@@ -293,7 +325,7 @@ footer {
   font-size: .86rem;
 }
 
-/* Ajustes para telas maiores */
+/* Telas maiores */
 
 @media (min-width: 760px) {
   .hero {
@@ -315,32 +347,48 @@ footer {
   }
 }
 
-/* Categorias: organização para celulares */
+/* Celulares */
 
 @media (max-width: 600px) {
-  .categories {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 8px;
-    padding: 4px 0 12px;
-    overflow: visible !important;
+  .hero {
+    padding-top: 24px;
+    padding-bottom: 28px;
   }
 
-  .category {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    min-height: 44px;
-    padding: 10px 9px;
-    border-radius: 12px;
-    font-size: 0.82rem;
-    line-height: 1.35;
-    text-align: center;
-    white-space: normal !important;
-    overflow-wrap: break-word;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .brand {
+    font-size: .68rem;
+  }
+
+  .notice {
+    padding: 12px 14px;
+  }
+
+  .category-filter {
+    max-width: none;
+    margin-bottom: 24px;
+  }
+
+  .results-head {
+    align-items: flex-start;
+  }
+
+  .results-head h2 {
+    font-size: 1.2rem;
+  }
+
+  .faq-question {
+    padding: 16px 14px;
+    gap: 12px;
+    font-size: .94rem;
+  }
+
+  .faq-answer {
+    padding: 0 14px 16px;
+    font-size: .93rem;
+  }
+
+  .text-button {
+    padding: 4px 0;
+    font-size: .82rem;
   }
 }
